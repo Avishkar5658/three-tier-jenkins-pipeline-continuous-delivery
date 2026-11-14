@@ -11,8 +11,8 @@ def call(String credentialsId, String imageName, String tag) {
     ]) {
 
         sh """
-            echo "\$avishkarrthorave" | docker login \
-            -u "\$Avishkar@hub" --password-stdin
+            echo "\$Avishkar@hub" | docker login \
+            -u "\$avishkarrthorave" --password-stdin
 
             docker push ${'avishkarrthorave/three-tier-notes-app'}:${tag}
 
