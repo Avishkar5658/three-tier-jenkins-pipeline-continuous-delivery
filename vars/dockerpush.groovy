@@ -5,8 +5,8 @@ def call(String credentialsId, String imageName, String tag) {
     withCredentials([
         usernamePassword(
             credentialsId: credentialsId,
-            usernameVariable: 'DOCKER_USER',
-            passwordVariable: 'DOCKER_PASS'
+            usernameVariable: 'avishkarrthorave',
+            passwordVariable: 'Avishkar@hub'
         )
     ]) {
 
@@ -14,7 +14,7 @@ def call(String credentialsId, String imageName, String tag) {
             echo "\$DOCKER_PASS" | docker login \
             -u "\$DOCKER_USER" --password-stdin
 
-            docker push ${imageName}:${tag}
+            docker push ${avishkarrthorave/three-tier-notes-app}:${tag}
 
             docker logout
         """
