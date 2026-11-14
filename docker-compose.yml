@@ -13,23 +13,26 @@ services:
     networks:
       - notes-app-nw
 
-  django_app:
-    build:
-      context: .
-    image: django_app
-    container_name: django_cont
-    ports:
-      - "8000:8000"
-    command: >
-      sh -c "python manage.py migrate --noinput &&
-      python manage.py shell -c \"from api.models import Note; from django.core.management import call_command; Note.objects.exists() or call_command('loaddata', 'api/fixtures/initial_notes.json')\" &&
-      gunicorn notesapp.wsgi --bind 0.0.0.0:8000"
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: always
+django_app:
+  image: avishkarrthorave/three-tier-notes-app:${IMAGE_TAG:-latest}
+  container_name: django_cont
+
+  ports:
+    - "8000:8000"
+
+  command: >
+    sh -c "python manage.py migrate --noinput &&
+    python manage.py shell -c \"from api.models import Note; from django.core.management import call_command; Note.objects.exists() or call_command('loaddata', 'api/fixtures/initial_notes.json')\" &&
+    gunicorn notesapp.wsgi --bind 0.0.0.0:8000"
+
+  env_file:
+    - .env
+
+  depends_on:
+    db:
+      condition: service_healthy
+
+  restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/admin || exit 1"]
       interval: 10s
