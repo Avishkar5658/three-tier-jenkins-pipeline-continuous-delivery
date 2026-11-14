@@ -11,10 +11,10 @@ def call(String credentialsId, String imageName, String tag) {
     ]) {
 
         sh """
-            echo "\$DOCKER_PASS" | docker login \
-            -u "\$DOCKER_USER" --password-stdin
+            echo "\$avishkarrthorave" | docker login \
+            -u "\$Avishkar@hub" --password-stdin
 
-            docker push ${avishkarrthorave/three-tier-notes-app}:${tag}
+            docker push ${'avishkarrthorave/three-tier-notes-app'}:${tag}
 
             docker logout
         """
