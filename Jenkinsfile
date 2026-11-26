@@ -1,29 +1,30 @@
-@Library('Shared')_
-pipeline{
-    agent { label 'dev-server'}
-    
-    stages{
-        stage("Code clone"){
-            steps{
-                sh "whoami"
-            clone("https://github.com/LondheShubham153/django-notes-app.git","main")
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Avishkar5658/three-tier-jenkins-pipeline-continuous-delivery.git'
             }
         }
-        stage("Code Build"){
-            steps{
-            dockerbuild("notes-app","latest")
+
+        stage('Build') {
+            steps {
+                echo 'Building application...'
             }
         }
-        stage("Push to DockerHub"){
-            steps{
-                dockerpush("dockerHubCreds","notes-app","latest")
+
+        stage('Test') {
+            steps {
+                echo 'Testing application...'
             }
         }
-        stage("Deploy"){
-            steps{
-                deploy()
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
             }
         }
-        
     }
 }
